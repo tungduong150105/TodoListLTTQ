@@ -1,0 +1,31 @@
+<div class="container bg-white rounded-lg shadow-lg p-10 ring-1 ring-black">
+  <h1 class="pl-4 mb-5 font-bold text-5xl">All ToDo</h1>
+  <p class="pl-4">
+    Download:
+    <%= link_to "Excel", dev_path(format: :csv) %>
+  </p>
+  <table class="text-xl table-auto w-1/2 mb-5">
+    <thead>
+      <tr>
+        <th class="text-left p-4">Description</th>
+        <th class="text-left p-4">Completed</th>
+        <th class="text-left p-4">Deleted</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tasks.each do |task| %>
+        <tr>
+          <td class="p-1 pl-4">
+            <%= task.description %>
+          </td>
+          <td class="p-1 pl-4 uppercase">
+            <%= task.completed %>
+          </td>
+          <td class="p-1 pl-4 uppercase">
+            <%= task.deleted %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

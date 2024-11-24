@@ -1,7 +1,13 @@
-<div class="container">
+<div class="container bg-white shadow-lg mx-auto p-8 ring-1 ring-black rounded-lg">
   <% if notice.present? %>
-    <div class="alert alert-success w-50 mt-3">
+    <div data-controller="flash" class="font-regular relative mb-4 block rounded-lg bg-green-500 p-4 text-base leading-5 text-white opacity-100 w-1/3">
       <%= flash.now[:notice] %>
+    </div>
+  <% end %>
+
+  <% if alert.present? %>
+    <div data-controller="flash" class="font-regular relative mb-4 block rounded-lg bg-red-500 p-4 text-base leading-5 text-white opacity-100 w-1/3">
+      <%= flash.now[:alert] %>
     </div>
   <% end %>
 
@@ -9,27 +15,38 @@
     <h1 class="font-bold text-5xl">Todo List</h1>
   </div>
 
-  <div class="my-8">
+  <div class="my-8 w-100">
     <%= form_with model: @task, url: tasks_path, method: :post do |form| %>
-      <%= form.text_field :description, placeholder: "Add new task...", class: "py-2 px-3 rounded-md shadow-2xl"%>
+      <%= form.text_field :description, :style => "width:300px", placeholder: "Add new task...", class: "py-2 px-3 rounded-md shadow-2xl"%>
       <%= form.submit "Save", class: "py-2 px-3 bg-blue-500 text-white text-sm font-semibold rounded-md shadow-lg shadow-blue-500/50" %>
     <% end %>
   </div>
 
-  <div class="my-8" data-controller="completed">
+  <div class="my-8">
     <div class="font-semibold mb-3">Tasks</div>
 
     <div class="grid gird-cols-1 gap-3 w-1/3">
       <% @tasks.each do |task| %>
         <% if task.completed == false && task.deleted == false %>
-          <div class="inline-flex font-semibold shadow-2xl rounded-lg px-3 py-3 ring-1 ring-blue gap-3">
-            <%= button_to "___", update_completed_task_path(task), method: :patch, class: "my-2 mr-2" %>
-            <div class="font-normal my-auto me-auto">
+          <div class="inline-flex font-semibold shadow-2xl rounded-lg px-3 py-3 ring-1 ring-blue gap-3" data-controller="edit">
+            <div data-edit-target="obj1">
+              <%= button_to update_completed_task_path(task), method: :patch, class: "bg-gray-400 px-3 py-3 hover:bg-green-700 rounded-full my-1" do %>
+              <% end %>
+            </div>
+            <div class="font-normal my-auto me-auto" data-edit-target="obj2">
               <%= task.description %>
             </div>
-            <button class="py-2 px-3 bg-blue-500 text-white text-sm font-semibold rounded-md shadow-lg shadow-blue-500/50" data-action="click->completed#update">Edit</button>
-            <%#= button_to "Edit", data: {controller: "click->completed#update"}, class: "py-2 px-3 bg-blue-500 text-white text-sm font-semibold rounded-md shadow-lg shadow-blue-500/50" %>
-            <%= button_to "Delete", task_path(task), method: :delete, class: "py-2 px-3 bg-red-500 text-white text-sm font-semibold rounded-md shadow-lg shadow-red-500/50" %>
+            <button class="py-2 px-3 bg-blue-500 text-white text-sm font-semibold rounded-md shadow-lg shadow-blue-500/50" data-action="click->edit#click" data-edit-target="obj3">Edit</button>
+            <div class="hidden inline-flex" data-edit-target="showEdit">
+              <%= form_with model: task, url: task_path(task), method: :patch do |form| %>
+                <%= form.text_field :description, :style => "width:330px", class: "rounded-md shadow-2xl"%>
+                <%= form.submit "Save", class: "py-2 px-3 bg-green-500 text-white text-sm font-semibold rounded-md shadow-lg shadow-green-500/50" %>
+                <%= link_to "Back", root_path, class: "py-2 px-3 bg-black text-white text-sm font-semibold rounded-md shadow-lg shadow-black-500/50" %>
+              <% end %>
+            </div>
+            <div data-edit-target="obj4">
+              <%= button_to "Delete", task_path(task), method: :delete, class: "py-2 px-3 bg-red-500 text-white text-sm font-semibold rounded-md shadow-lg shadow-red-500/50" %>
+            </div>
           </div>
         <% end %>
       <% end %>
@@ -48,5 +65,13 @@
         <% end %>
       <% end %>
     </div>
+  </div>
+
+  <div>
+    <p class="text-left mb-2">Import File</p>
+    <%= form_tag import_tasks_path, multipart: true do %>
+      <%= file_field_tag :file %>
+      <%= submit_tag "Import", class: "bg-gray-200 ring-1 ring-black px-2" %>
+    <% end %>
   </div>
 </div>

@@ -5,19 +5,20 @@ class TasksController < ApplicationController
   end
   def create
     @task = Task.new(task_params)
-    @task.completed = false
-    @task.deleted = false
-    if @task.save
-      redirect_to root_path, notice: "Task was successfully created."
+    if @task.description == ""
+      redirect_to root_path, alert: "Task must have description."
     else
-      render :index
+      @task.completed = false
+      @task.deleted = false
+      @task.save
+      redirect_to root_path, notice: "Task was successfully created."
     end
   end
   def update_completed
     @task = Task.find(params[:id])
     @task.completed = true
     @task.save
-    redirect_to root_path, notice: "Task was successfully updated."
+    redirect_to root_path
   end
   def edit
     @task = Task.new
@@ -26,8 +27,6 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
     if @task.update(task_params)
       redirect_to root_path, notice: "Task was successfully updated."
-    else
-      render :edit
     end
   end
   def destroy
@@ -35,6 +34,10 @@ class TasksController < ApplicationController
     @task.deleted = true
     @task.save
     redirect_to root_path, notice: "Task was successfully destroyed."
+  end
+  def import
+    Task.import(params[:file])
+    redirect_to root_path, notice: "Tasks imported."
   end
   private
   def task_params
