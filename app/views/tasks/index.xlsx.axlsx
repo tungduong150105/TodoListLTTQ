@@ -1,0 +1,8 @@
+wb = xlsx_package.workbook
+wrap_text = wb.styles.add_style({:alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}})
+wb.add_worksheet(name: "All Tasks") do |sheet|
+  sheet.add_row ["DESCRIPTION", "COMPLETED"], style: [nil, wrap_text]
+  @tasks.each do |task|
+    sheet.add_row [task.description, task.completed], style: [nil, wrap_text]
+  end
+end

@@ -2,6 +2,13 @@ class TasksController < ApplicationController
   def index
     @tasks = Task.all
     @task = Task.new
+    @taskD = Task.order(:completed)
+    respond_to do |format|
+      format.html
+      format.xlsx {
+        response.headers["Content-Disposition"] = "attachment; filename=\"Task#{Time.now.strftime("-%Y-%m-%d")}.xlsx\""
+      }
+    end
   end
   def create
     @task = Task.new(task_params)

@@ -65,5 +65,5 @@ gem "tailwindcss-rails", "~> 3.0"
 
 gem "importmap-rails", "~> 2.0"
 gem "mime-types", "~> 3.1"
-gem "roo"
-gem "roo-xls"
+gem "roo", "~> 2.10"
+gem "axlsx_rails"

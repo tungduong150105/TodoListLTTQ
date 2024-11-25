@@ -67,11 +67,18 @@
     </div>
   </div>
 
-  <div>
+  <div class="my-8">
     <p class="text-left mb-2">Import File</p>
     <%= form_tag import_tasks_path, multipart: true do %>
       <%= file_field_tag :file %>
       <%= submit_tag "Import", class: "bg-gray-200 ring-1 ring-black px-2" %>
     <% end %>
+  </div>
+
+  <div>
+    <p>
+      Download as:
+      <%= link_to "Excel", tasks_path(format: :xlsx) %>
+    </p>
   </div>
 </div>
