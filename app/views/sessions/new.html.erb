@@ -1,0 +1,52 @@
+<div class="container bg-white rounded-lg shadow-lg p-10 mb-3 mx-auto pt-20" style="width: 90%">
+  <div style="position:absolute; top: 55px; left: 175px; width: 60%;">
+    <% if notice.present? %>
+      <div data-controller="flash" class="font-regular mb-4 relative block rounded-lg bg-green-500 p-4 text-base leading-5 text-white opacity-100 w-1/2">
+        <%= flash.discard(:notice) %>
+      </div>
+    <% end %>
+  </div>
+
+  <div style="position:absolute; top: 55px; left: 175px; width: 60%;">
+    <% if alert.present? %>
+      <div data-controller="flash" class="font-regular relative mb-4 block rounded-lg bg-red-500 p-4 text-base leading-5 text-white opacity-100 w-1/2">
+        <%= flash.discard(:alert) %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="flex">
+    <div class="container w-1/2">
+      <div class="text-5xl text-red-500 font-bold mb-48">
+        <h1>To Do App</h1>
+      </div>
+      <div class="text-left pl-36 mb-10">
+        <h2 class="font-bold text-5xl mb-3">Welcome Back</h2>
+        <p class="font-normal text-gray-500">Please Log In to continue</p>
+      </div>
+      <%= form_with url: sessions_path do |form| %>
+        <div class="text-right pr-52">
+          User Name:
+          <%= form.text_field :username, class: "mb-3 py-2 px-3 rounded-md shadow-2xl", placeholder: "Enter your name" %>
+        </div>
+        <div class="text-right pr-52 mb-3">
+          Password:
+          <%= form.password_field :password, class: "mb-3 py-2 px-3 rounded-md shadow-2xl", placeholder: "Enter your password" %>
+        </div>
+        <div class="text-center mb-5">
+          <%= form.submit "Log In", class: "py-2 px-3 bg-blue-500 text-white text-sm font-semibold rounded-md shadow-lg shadow-blue-500/50" %>
+        </div>
+      <% end %>
+      <div class="text-center">
+        <p>
+          Don't have an account?
+          <%= link_to "Sign Up", new_user_path, class: "text-blue-700 font-semibold" %>
+        </p>
+      </div>
+    </div>
+
+    <div class="container w-1/2 flex justify-center" style="height: 90vh">
+      <%= image_tag("todo.jpg", :class => "rounded-lg") %>
+    </div>
+  </div>
+</div>

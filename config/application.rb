@@ -1,6 +1,8 @@
 require_relative "boot"
 
 require "rails/all"
+require "roo"
+# require "csv"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -15,6 +17,10 @@ module TodoAppLttq
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
+
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance|
+      "<div class=\"field_with_errors control-group error\">#{html_tag}</div>".html_safe
+    }
 
     # Configuration for the application, engines, and railties goes here.
     #

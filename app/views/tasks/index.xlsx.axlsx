@@ -1,0 +1,8 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "All Tasks") do |sheet|
+  sheet.add_row ["description", "completed"]
+  @tasks.each do |task|
+    next if task.deleted = false
+    sheet.add_row [task.description, task.completed]
+  end
+end
