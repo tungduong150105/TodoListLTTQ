@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
+  resources :users
   resources :tasks do
     member do
       patch :update_completed
@@ -10,8 +11,8 @@ Rails.application.routes.draw do
       post :import
     }
   end
-  root to: "tasks#index"
-  get "/download", to: "axlsx#index"
+  resources :sessions, only: [:new, :create, :destroy]
+  root to: "sessions#new"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

@@ -1,8 +1,9 @@
 class TasksController < ApplicationController
+  before_action :set_current_user
   def index
-    @tasks = Task.all
+    @tasks = Task.joins("JOIN todos ON tasks.id = todos.TaskID").where(todos: {userId: Current.user.id}, tasks: {deleted: false})
     @task = Task.new
-    @taskD = Task.order(:completed)
+    # @taskD = Task.order(:completed)
     respond_to do |format|
       format.html
       format.xlsx {
@@ -13,19 +14,21 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     if @task.description == ""
-      redirect_to root_path, alert: "Task must have description."
+      redirect_to tasks_path, alert: "Task must have description."
     else
       @task.completed = false
       @task.deleted = false
       @task.save
-      redirect_to root_path, notice: "Task was successfully created."
+      @todo = Todo.new(userId: Current.user.id, taskID: @task.id)
+      @todo.save
+      redirect_to tasks_path, notice: "Task was successfully created."
     end
   end
   def update_completed
     @task = Task.find(params[:id])
     @task.completed = true
     @task.save
-    redirect_to root_path
+    redirect_to tasks_path
   end
   def edit
     @task = Task.new
@@ -33,18 +36,18 @@ class TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
     if @task.update(task_params)
-      redirect_to root_path, notice: "Task was successfully updated."
+      redirect_to tasks_path, notice: "Task was successfully updated."
     end
   end
   def destroy
     @task = Task.find(params[:id])
     @task.deleted = true
     @task.save
-    redirect_to root_path, notice: "Task was successfully destroyed."
+    redirect_to tasks_path, notice: "Task was successfully destroyed."
   end
   def import
     Task.import(params[:file])
-    redirect_to root_path, notice: "Tasks imported."
+    redirect_to tasks_path, notice: "Tasks imported."
   end
   private
   def task_params
