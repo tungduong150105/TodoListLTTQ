@@ -1,17 +1,19 @@
-<div class="container bg-white shadow-lg mx-auto p-8 ring-1 ring-black rounded-lg" style="width: 700px">
-  <% if notice.present? %>
-    <div data-controller="flash" class="font-regular mb-4 relative block rounded-lg bg-green-500 p-4 text-base leading-5 text-white opacity-100 w-1/2">
-      <%#= flash.now[:notice] %>
-      <%= flash.discard(:notice) %>
-    </div>
-  <% end %>
+<div class="container bg-white shadow-lg mx-auto p-8 ring-1 ring-black rounded-lg pt-20" style="width: 700px">
+  <div style="position:absolute; top: 55px; left: 500px; width: 60%;">
+    <% if notice.present? %>
+      <div data-controller="flash" class="font-regular mb-4 relative block rounded-lg bg-green-500 p-4 text-base leading-5 text-white opacity-100 w-1/2">
+        <%= flash.discard(:notice) %>
+      </div>
+    <% end %>
+  </div>
 
-  <% if alert.present? %>
-    <div data-controller="flash" class="font-regular relative mb-4 block rounded-lg bg-red-500 p-4 text-base leading-5 text-white opacity-100 w-1/2">
-      <%#= flash[:alert] %>
-      <%= flash.discard(:alert) %>
-    </div>
-  <% end %>
+  <div style="position:absolute; top: 55px; left: 500px; width: 60%;">
+    <% if alert.present? %>
+      <div data-controller="flash" class="font-regular relative mb-4 block rounded-lg bg-red-500 p-4 text-base leading-5 text-white opacity-100 w-1/2">
+        <%= flash.discard(:alert) %>
+      </div>
+    <% end %>
+  </div>
 
   <div class="">
     <div class="flex" style="align-items: flex-end">

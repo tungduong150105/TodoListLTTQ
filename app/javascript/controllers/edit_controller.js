@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["showEdit", "obj1", "obj2", "obj3", "obj4"]
   connect() {
-    // console.log("Edit Controller")
+    console.log("Edit Controller")
   }
   click() {
     console.log("Edit Click")
